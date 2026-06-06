@@ -10,9 +10,6 @@ Built using **Vanilla JavaScript and HTML5 Canvas** with zero external dependenc
 
 ---
 
-## 🚀 Live Demo
-👉 [Play the Simulation Live on GitHub Pages](https://adwaitsharma.github.io/UK_driving_test_simulator/)
-
 ---
 
 ## 🛠️ Features
