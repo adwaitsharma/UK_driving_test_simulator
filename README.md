@@ -5,7 +5,7 @@ A 2D, top-down web simulation built to help driving students master lane discipl
 Built using **Vanilla JavaScript and HTML5 Canvas** with zero external dependencies.
 
 <p align="center">
-  <img src="screenshot.png" alt="UK Roundabout Trainer Gameplay Screenshot" width="600">
+  <img src="screenshot.png" alt="UK Roundabout Trainer Gameplay Screenshot" width="1000">
 </p>
 
 ---
