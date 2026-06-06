@@ -1,0 +1,103 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>UK Roundabout Trainer</title>
+    <link rel="stylesheet" href="styles.css">
+  </head>
+  <body>
+    <main class="sim-shell" aria-label="UK driving practice game">
+      <canvas id="game" aria-label="Top-down UK roundabout driving simulation"></canvas>
+
+      <section class="hud hud-top" aria-live="polite">
+        <div class="brand">
+          <span class="brand-mark" aria-hidden="true">UK</span>
+          <div>
+            <h1>Roundabout Trainer</h1>
+            <p id="lessonName">Two-lane town roundabout</p>
+          </div>
+        </div>
+
+        <div class="route-card">
+          <span class="label">Route</span>
+          <strong id="targetText">Take the second exit</strong>
+          <span id="instructionText">Approach in the correct lane, then enter only when safe.</span>
+          <div id="routeSteps" class="route-steps" aria-label="Simple route plan"></div>
+        </div>
+
+        <div class="score-strip" aria-label="Driving score">
+          <div>
+            <span class="label">Score</span>
+            <strong id="score">100</strong>
+          </div>
+          <div>
+            <span class="label">Streak</span>
+            <strong id="streak">0</strong>
+          </div>
+          <div>
+            <span class="label">Mode</span>
+            <strong id="modeText">Guided</strong>
+          </div>
+        </div>
+      </section>
+
+      <section class="hud hud-left">
+        <div class="control-panel">
+          <div class="panel-row">
+            <button id="modeGuided" class="seg active" type="button">Guided</button>
+            <button id="modeTest" class="seg" type="button">Test</button>
+          </div>
+
+          <div class="indicator-row" aria-label="Indicators">
+            <button id="leftSignal" class="signal-btn" type="button" aria-pressed="false" title="Left indicator (Q)"><span>&larr;</span><small>Left</small></button>
+            <button id="hazardSignal" class="signal-btn hazard" type="button" aria-pressed="false" title="Cancel indicators (X)"><span>&times;</span><small>Cancel</small></button>
+            <button id="rightSignal" class="signal-btn" type="button" aria-pressed="false" title="Right indicator (E)"><span>&rarr;</span><small>Right</small></button>
+          </div>
+
+          <div class="action-grid">
+            <button id="mirrorBtn" type="button" title="Mirror check (M)">Mirrors</button>
+            <button id="blindBtn" type="button" title="Blind spot check (B)">Blind spot</button>
+            <button id="nextBtn" type="button" title="Start next drill (N)">Next drill</button>
+            <button id="resetBtn" type="button" title="Return to the start position (R)">Start again</button>
+          </div>
+        </div>
+      </section>
+
+      <section class="hud hud-coach" aria-live="polite">
+        <div class="coach-panel">
+          <div class="coach-main">
+            <span class="label">Do this now</span>
+            <p id="coachText">Choose the correct lane first.</p>
+            <span id="coachDetail">The trainer will give you one action at a time.</span>
+          </div>
+          <ol id="stepList" class="step-list" aria-label="Current drill checklist"></ol>
+        </div>
+      </section>
+
+      <section class="hud hud-feedback">
+        <div class="feedback-panel">
+          <span class="label">Recent feedback</span>
+          <ul id="eventList" aria-label="Recent driving feedback"></ul>
+        </div>
+      </section>
+
+      <section class="hud hud-bottom">
+        <div class="pedal-bar">
+          <span id="speedText">0 mph</span>
+          <div class="speed-track" aria-hidden="true"><span id="speedFill"></span></div>
+          <span id="gearText">D</span>
+        </div>
+        <div class="mini-help">
+          <kbd>W</kbd><span>accelerate</span>
+          <kbd>S</kbd><span>brake</span>
+          <kbd>A/D</kbd><span>steer</span>
+          <kbd>Q/E</kbd><span>indicate</span>
+          <kbd>M</kbd><span>mirrors</span>
+        </div>
+      </section>
+    </main>
+
+    <script src="app.js"></script>
+  </body>
+</html>

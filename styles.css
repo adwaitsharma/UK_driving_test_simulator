@@ -1,0 +1,623 @@
+:root {
+  color-scheme: dark;
+  --ink: #f7faf5;
+  --muted: #b7c4bd;
+  --panel: rgba(17, 28, 25, 0.9);
+  --panel-strong: rgba(12, 19, 18, 0.96);
+  --edge: rgba(255, 255, 255, 0.14);
+  --accent: #ffd166;
+  --good: #52d273;
+  --warn: #ffb74a;
+  --bad: #ff6b6b;
+  --blue: #68b7ff;
+  --road: #3b4045;
+  --grass: #214d3b;
+  --asphalt: #30363a;
+  font-family:
+    Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI",
+    sans-serif;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html,
+body {
+  width: 100%;
+  height: 100%;
+  margin: 0;
+  overflow: hidden;
+  background: #12261f;
+  color: var(--ink);
+}
+
+button {
+  border: 1px solid var(--edge);
+  border-radius: 8px;
+  background: rgba(255, 255, 255, 0.08);
+  color: var(--ink);
+  min-height: 38px;
+  font: inherit;
+  cursor: pointer;
+  transition:
+    background 140ms ease,
+    border-color 140ms ease,
+    transform 140ms ease;
+}
+
+button:hover,
+button:focus-visible {
+  border-color: rgba(255, 209, 102, 0.9);
+  background: rgba(255, 255, 255, 0.14);
+  outline: none;
+}
+
+button:active {
+  transform: translateY(1px);
+}
+
+kbd {
+  display: inline-grid;
+  place-items: center;
+  min-width: 24px;
+  height: 24px;
+  border-radius: 5px;
+  border: 1px solid rgba(255, 255, 255, 0.26);
+  background: rgba(0, 0, 0, 0.35);
+  color: #fff;
+  font: 700 12px/1 ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+}
+
+.sim-shell {
+  position: relative;
+  width: 100vw;
+  height: 100vh;
+  min-height: 560px;
+  background:
+    radial-gradient(circle at 18% 20%, rgba(81, 127, 99, 0.3), transparent 34%),
+    linear-gradient(135deg, #173c31 0%, #102822 48%, #1a3328 100%);
+}
+
+#game {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  display: block;
+}
+
+.hud {
+  position: absolute;
+  z-index: 2;
+  pointer-events: none;
+}
+
+.hud button,
+.hud input {
+  pointer-events: auto;
+}
+
+.hud-top {
+  top: 16px;
+  left: 16px;
+  right: 16px;
+  display: grid;
+  grid-template-columns: minmax(280px, 620px) minmax(170px, 250px);
+  gap: 12px;
+  align-items: stretch;
+  justify-content: space-between;
+}
+
+.brand,
+.route-card,
+.score-strip,
+.control-panel,
+.coach-panel,
+.feedback-panel,
+.pedal-bar,
+.mini-help {
+  border: 1px solid var(--edge);
+  background: var(--panel);
+  box-shadow: 0 18px 44px rgba(0, 0, 0, 0.28);
+  backdrop-filter: blur(18px);
+}
+
+.brand {
+  display: none;
+  gap: 12px;
+  align-items: center;
+  min-width: 0;
+  padding: 12px;
+  border-radius: 8px;
+}
+
+.brand-mark {
+  display: inline-grid;
+  place-items: center;
+  flex: 0 0 46px;
+  height: 46px;
+  border-radius: 7px;
+  background: linear-gradient(145deg, #e7eef7 0 45%, #ce2031 45% 58%, #1d4f9a 58% 100%);
+  color: #111;
+  font-weight: 900;
+  letter-spacing: 0;
+}
+
+h1 {
+  margin: 0;
+  font-size: 18px;
+  line-height: 1.08;
+  letter-spacing: 0;
+}
+
+p {
+  margin: 0;
+}
+
+.brand p,
+.label,
+.route-card span,
+.mini-help span {
+  color: var(--muted);
+}
+
+.brand p {
+  margin-top: 4px;
+  font-size: 13px;
+}
+
+.route-card {
+  display: grid;
+  gap: 2px;
+  padding: 12px 14px;
+  border-radius: 8px;
+}
+
+.label {
+  display: block;
+  font-size: 11px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0;
+}
+
+.route-card strong {
+  display: block;
+  font-size: clamp(17px, 2.1vw, 25px);
+  line-height: 1.08;
+}
+
+.route-card > span:last-of-type {
+  display: none;
+  font-size: 13px;
+  line-height: 1.35;
+}
+
+.route-steps {
+  display: none;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 6px;
+  margin-top: 6px;
+}
+
+.route-steps span {
+  min-width: 0;
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  border-radius: 6px;
+  padding: 6px 7px;
+  background: rgba(255, 255, 255, 0.07);
+  color: #eff7f1;
+  font-size: 12px;
+  font-weight: 750;
+  line-height: 1.15;
+  text-align: center;
+}
+
+.score-strip {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 1px;
+  overflow: hidden;
+  border-radius: 8px;
+}
+
+.score-strip > div:nth-child(2) {
+  display: none;
+}
+
+.score-strip > div {
+  display: grid;
+  align-content: center;
+  gap: 4px;
+  min-width: 0;
+  padding: 12px;
+  background: rgba(255, 255, 255, 0.04);
+}
+
+.score-strip strong {
+  font-size: 22px;
+  line-height: 1;
+}
+
+.hud-left {
+  left: 16px;
+  bottom: 86px;
+  width: min(280px, calc(100vw - 32px));
+}
+
+.control-panel {
+  display: grid;
+  gap: 8px;
+  padding: 10px;
+  border-radius: 8px;
+}
+
+.panel-row,
+.indicator-row,
+.action-grid {
+  display: grid;
+  gap: 8px;
+}
+
+.panel-row {
+  grid-template-columns: 1fr 1fr;
+}
+
+.seg.active {
+  background: rgba(255, 209, 102, 0.18);
+  border-color: rgba(255, 209, 102, 0.85);
+  color: #fff4d1;
+}
+
+.indicator-row {
+  grid-template-columns: 1fr 1fr 1fr;
+}
+
+.signal-btn {
+  display: grid;
+  place-items: center;
+  gap: 1px;
+  min-height: 44px;
+  font-weight: 900;
+}
+
+.signal-btn span {
+  font-size: 23px;
+  line-height: 1;
+}
+
+.signal-btn small {
+  color: var(--muted);
+  font-size: 11px;
+  font-weight: 800;
+}
+
+.signal-btn.active {
+  background: rgba(255, 209, 102, 0.22);
+  border-color: var(--accent);
+  color: var(--accent);
+  box-shadow: inset 0 0 0 1px rgba(255, 209, 102, 0.24);
+}
+
+.signal-btn.hazard {
+  color: var(--bad);
+}
+
+.action-grid {
+  grid-template-columns: 1fr 1fr;
+}
+
+.hud-coach {
+  top: 126px;
+  left: 50%;
+  width: min(760px, calc(100vw - 360px));
+  transform: translateX(-50%);
+}
+
+.coach-panel {
+  display: grid;
+  grid-template-columns: minmax(250px, 1.25fr) minmax(260px, 0.95fr);
+  gap: 12px;
+  overflow: hidden;
+  padding: 12px;
+  border-radius: 8px;
+}
+
+.coach-panel[data-tone="info"] {
+  border-color: rgba(104, 183, 255, 0.5);
+}
+
+.coach-panel[data-tone="warn"] {
+  border-color: rgba(255, 209, 102, 0.78);
+}
+
+.coach-panel[data-tone="good"] {
+  border-color: rgba(82, 210, 115, 0.68);
+}
+
+.coach-main {
+  display: grid;
+  align-content: center;
+  gap: 5px;
+  min-width: 0;
+}
+
+.coach-main p {
+  color: #fff7da;
+  font-size: clamp(23px, 3vw, 36px);
+  font-weight: 900;
+  line-height: 1.04;
+}
+
+#coachDetail {
+  color: #d9e7df;
+  font-size: 14px;
+  line-height: 1.28;
+}
+
+.step-list {
+  display: grid;
+  margin: 0;
+  padding: 0;
+  gap: 7px;
+  list-style: none;
+}
+
+.step-list li {
+  display: grid;
+  grid-template-columns: 24px 1fr;
+  gap: 8px;
+  align-items: center;
+  min-width: 0;
+  border: 1px solid rgba(255, 255, 255, 0.11);
+  border-radius: 6px;
+  padding: 7px 8px;
+  background: rgba(255, 255, 255, 0.06);
+  color: #dce8e0;
+  font-size: 13px;
+  font-weight: 750;
+  line-height: 1.18;
+}
+
+.step-list li::before {
+  content: attr(data-step);
+  display: grid;
+  place-items: center;
+  width: 24px;
+  height: 24px;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.12);
+  color: #fff;
+  font-size: 12px;
+  font-weight: 900;
+}
+
+.step-list li.current {
+  border-color: rgba(255, 209, 102, 0.8);
+  background: rgba(255, 209, 102, 0.16);
+  color: #fff8dc;
+}
+
+.step-list li.current::before {
+  background: var(--accent);
+  color: #1c1a12;
+}
+
+.step-list li.done {
+  border-color: rgba(82, 210, 115, 0.5);
+  color: #d9ffe2;
+}
+
+.step-list li.done::before {
+  background: var(--good);
+  color: #07180c;
+}
+
+.hud-feedback {
+  right: 16px;
+  bottom: 94px;
+  width: min(320px, calc(100vw - 32px));
+}
+
+.feedback-panel {
+  display: grid;
+  gap: 10px;
+  max-height: min(34vh, 280px);
+  overflow: hidden;
+  padding: 12px;
+  border-radius: 8px;
+}
+
+#eventList {
+  display: grid;
+  gap: 7px;
+  max-height: 210px;
+  margin: 0;
+  padding: 0;
+  overflow: auto;
+  list-style: none;
+}
+
+#eventList li {
+  border-left: 3px solid var(--blue);
+  padding: 6px 8px;
+  border-radius: 4px;
+  background: rgba(255, 255, 255, 0.06);
+  color: #e9f3ed;
+  font-size: 12px;
+  line-height: 1.3;
+}
+
+#eventList li.good {
+  border-color: var(--good);
+}
+
+#eventList li.warn {
+  border-color: var(--warn);
+}
+
+#eventList li.bad {
+  border-color: var(--bad);
+}
+
+.hud-bottom {
+  left: 16px;
+  right: 16px;
+  bottom: 16px;
+  display: grid;
+  grid-template-columns: minmax(240px, 420px) 1fr;
+  gap: 12px;
+  align-items: end;
+}
+
+.pedal-bar {
+  display: grid;
+  grid-template-columns: 64px 1fr 36px;
+  gap: 10px;
+  align-items: center;
+  min-height: 54px;
+  padding: 10px 12px;
+  border-radius: 8px;
+  font-weight: 800;
+}
+
+.speed-track {
+  height: 10px;
+  overflow: hidden;
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.12);
+}
+
+.speed-track span {
+  display: block;
+  width: 0%;
+  height: 100%;
+  border-radius: inherit;
+  background: linear-gradient(90deg, var(--good), var(--accent), var(--bad));
+}
+
+.mini-help {
+  display: flex;
+  min-width: 0;
+  min-height: 54px;
+  gap: 8px;
+  align-items: center;
+  justify-content: flex-end;
+  padding: 10px 12px;
+  border-radius: 8px;
+  font-size: 12px;
+}
+
+.mini-help span {
+  margin-right: 8px;
+}
+
+@media (max-width: 920px) {
+  .sim-shell {
+    min-height: 650px;
+  }
+
+  .hud-top {
+    grid-template-columns: 1fr;
+  }
+
+  .route-steps {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .score-strip {
+    min-height: 64px;
+  }
+
+  .hud-left {
+    bottom: 148px;
+  }
+
+  .hud-coach {
+    top: auto;
+    left: 16px;
+    right: 16px;
+    bottom: 220px;
+    width: auto;
+    transform: none;
+  }
+
+  .coach-panel {
+    grid-template-columns: 1fr;
+  }
+
+  .coach-main p {
+    font-size: 24px;
+  }
+
+  .step-list {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .hud-feedback {
+    left: 16px;
+    right: auto;
+    bottom: 16px;
+    width: calc(100vw - 32px);
+  }
+
+  .feedback-panel {
+    max-height: 94px;
+    grid-template-columns: 110px 1fr;
+    align-items: start;
+  }
+
+  #eventList {
+    display: none;
+  }
+
+  .hud-bottom {
+    grid-template-columns: 1fr;
+    bottom: 148px;
+    left: auto;
+    right: 16px;
+    width: min(300px, calc(100vw - 32px));
+  }
+
+  .mini-help {
+    display: none;
+  }
+}
+
+@media (max-width: 560px) {
+  .hud-top,
+  .hud-left,
+  .hud-coach,
+  .hud-feedback,
+  .hud-bottom {
+    left: 10px;
+    right: 10px;
+  }
+
+  .hud-left {
+    width: auto;
+  }
+
+  .hud-coach,
+  .hud-feedback {
+    width: auto;
+  }
+
+  .brand {
+    display: none;
+  }
+
+  .route-card {
+    padding: 10px;
+  }
+
+  .route-steps,
+  .step-list {
+    grid-template-columns: 1fr 1fr;
+  }
+
+  .score-strip strong {
+    font-size: 18px;
+  }
+}
